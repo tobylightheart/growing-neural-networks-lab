@@ -1,0 +1,16 @@
+{
+  "id": "cascade-correlation-xor",
+  "title": "Cascade-Correlation on XOR",
+  "algorithm_id": "cascade-correlation",
+  "status": "available",
+  "summary": "A tiny cascade-correlation-style growth trace for XOR.",
+  "learning_objectives": [
+    "See why a linear output layer alone cannot solve XOR.",
+    "Add one hidden feature selected for residual correlation.",
+    "Freeze the hidden feature and retrain the output layer."
+  ],
+  "limitations": [
+    "This is a toy mechanism demonstration, not a full reproduction of Fahlman and Lebiere (1990).",
+    "Candidate search is intentionally tiny and deterministic."
+  ]
+}

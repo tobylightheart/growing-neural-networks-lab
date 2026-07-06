@@ -1,0 +1,9 @@
+[
+  {
+    "id": "cascade-correlation",
+    "name": "Cascade-Correlation",
+    "main_garden_algorithm_id": "cascade-correlation",
+    "summary": "A constructive supervised-learning pattern that adds hidden units trained to correlate with residual error, then freezes their incoming weights.",
+    "lab_ids": ["cascade-correlation-xor"]
+  }
+]

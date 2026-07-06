@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cascade-Correlation on XOR</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="lab">
+    <nav><a href="../../index.html">← Lab home</a></nav>
+    <p class="eyebrow">Toy mechanism trace</p>
+    <h1>Cascade-Correlation on XOR</h1>
+    <p class="lede">A minimal demonstration of adding one residual-correlated hidden feature, freezing it, and retraining the output layer.</p>
+
+    <section class="panel warning">
+      <strong>Scope:</strong> this is a small educational mechanism, not a full reproduction of Fahlman & Lebiere (1990). For paper context, use the main Growing Neural Networks literature garden.
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>1. Baseline</h2>
+        <p>A linear model sees only bias, x₁, and x₂. It cannot separate XOR.</p>
+        <pre id="baseline"></pre>
+      </div>
+      <div class="panel">
+        <h2>2. Candidate unit</h2>
+        <p>A tiny search finds a sigmoid feature whose activation correlates with the residual error.</p>
+        <pre id="candidate"></pre>
+      </div>
+      <div class="panel">
+        <h2>3. Grown model</h2>
+        <p>The hidden feature is frozen. The output model is refit using bias, inputs, and the new feature.</p>
+        <pre id="grown"></pre>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>XOR trace</h2>
+      <table>
+        <thead><tr><th>x₁</th><th>x₂</th><th>target</th><th>output</th><th>prediction</th></tr></thead>
+        <tbody id="trace"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Download</h2>
+      <p><a href="cascade_correlation_xor.py">Pure-Python script</a> · <a href="README.md">Lab README</a> · <a href="experiment.json">Metadata</a></p>
+    </section>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

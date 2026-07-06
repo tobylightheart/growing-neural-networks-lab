@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cascade-correlation-xor",
+    "title": "Cascade-Correlation on XOR",
+    "status": "available",
+    "algorithm_id": "cascade-correlation",
+    "summary": "A tiny pure-Python and browser-readable lab showing how adding one residual-correlated hidden feature can solve XOR.",
+    "entry": "labs/cascade-correlation-xor/index.html",
+    "script": "labs/cascade-correlation-xor/cascade_correlation_xor.py",
+    "tests": ["labs/cascade-correlation-xor/tests/test_xor.py"],
+    "main_garden_links": [
+      "../growing-neural-networks/pages/algorithm.html?id=cascade-correlation",
+      "../growing-neural-networks/modules/cascade-correlation-growth/index.html"
+    ],
+    "claims": [
+      "toy-mechanism",
+      "not-a-full-paper-reproduction"
+    ]
+  }
+]
