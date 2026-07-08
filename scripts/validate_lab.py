@@ -39,8 +39,25 @@ def main() -> int:
                     require((ROOT / rel).exists(), f"{eid}: {field} not found: {rel}", errors)
             for test_path in experiment.get("tests", []):
                 require((ROOT / test_path).exists(), f"{eid}: test not found: {test_path}", errors)
-            readme = ROOT / "labs" / eid / "README.md"
+
+            lab_dir = ROOT / "labs" / str(eid)
+            readme = lab_dir / "README.md"
             require(readme.exists(), f"{eid}: missing lab README.md", errors)
+
+            lab_metadata_path = lab_dir / "experiment.json"
+            require(lab_metadata_path.exists(), f"{eid}: missing lab experiment.json", errors)
+            if lab_metadata_path.exists():
+                lab_metadata = load_json(lab_metadata_path)
+                require(
+                    lab_metadata.get("id") == eid,
+                    f"{eid}: lab experiment.json id does not match data/experiments.json",
+                    errors,
+                )
+                require(
+                    lab_metadata.get("algorithm_id") == experiment.get("algorithm_id"),
+                    f"{eid}: lab experiment.json algorithm_id does not match data/experiments.json",
+                    errors,
+                )
 
     for algorithm in algorithms:
         for lab_id in algorithm.get("lab_ids", []):
