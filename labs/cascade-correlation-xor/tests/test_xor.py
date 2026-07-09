@@ -7,7 +7,7 @@ from pathlib import Path
 LAB_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB_DIR))
 
-from cascade_correlation_xor import run_experiment  # noqa: E402
+from cascade_correlation_xor import XOR_DATA, run_experiment  # noqa: E402
 
 
 def test_cascade_correlation_xor_solves_truth_table() -> None:
@@ -18,6 +18,32 @@ def test_cascade_correlation_xor_solves_truth_table() -> None:
     assert result["candidate"]["residual_correlation"] > 0.5
 
 
+def test_growth_trace_records_real_improvement() -> None:
+    result = run_experiment()
+
+    baseline = result["baseline"]
+    candidate = result["candidate"]
+    grown = result["grown_model"]
+
+    assert len(baseline["outputs"]) == len(XOR_DATA)
+    assert len(candidate["hidden_values"]) == len(XOR_DATA)
+    assert len(grown["outputs"]) == len(XOR_DATA)
+
+    # A bias-plus-inputs linear readout should stall near the XOR mean.
+    assert all(0.49 < output < 0.51 for output in baseline["outputs"])
+    assert baseline["mse"] > 0.24
+
+    # The selected hidden feature must be useful after it is frozen and the
+    # output layer is refit, not merely correlated with residuals in isolation.
+    assert grown["mse"] < baseline["mse"] / 1000
+    for output, (_, target) in zip(grown["outputs"], XOR_DATA):
+        if target == 1.0:
+            assert output > 0.99
+        else:
+            assert output < 0.01
+
+
 if __name__ == "__main__":
     test_cascade_correlation_xor_solves_truth_table()
-    print("cascade-correlation XOR test passed")
+    test_growth_trace_records_real_improvement()
+    print("cascade-correlation XOR tests passed")
