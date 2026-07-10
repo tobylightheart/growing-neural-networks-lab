@@ -133,6 +133,21 @@ def run_experiment() -> dict:
 
     grown_weights, grown_outputs, grown_mse = fit_output(grown_features)
     predictions = [1 if output >= 0.5 else 0 for output in grown_outputs]
+    growth_trace = []
+    for (x, target), base_output, residual, hidden, grown_output, prediction in zip(
+        XOR_DATA, base_outputs, residuals, hidden_values, grown_outputs, predictions
+    ):
+        growth_trace.append(
+            {
+                "x": x,
+                "target": target,
+                "baseline_output": base_output,
+                "residual": residual,
+                "hidden_value": hidden,
+                "grown_output": grown_output,
+                "prediction": prediction,
+            }
+        )
 
     return {
         "baseline": {"weights": base_weights, "outputs": base_outputs, "mse": base_mse},
@@ -150,6 +165,7 @@ def run_experiment() -> dict:
             "mse": grown_mse,
             "solves_xor": predictions == [0, 1, 1, 0],
         },
+        "growth_trace": growth_trace,
     }
 
 

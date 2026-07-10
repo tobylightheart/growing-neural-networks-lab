@@ -16,6 +16,7 @@ python3 tests/test_xor.py
 - The baseline linear model stalls on XOR.
 - A small candidate search finds a useful hidden feature.
 - After adding the feature, the classifier reaches the XOR truth table.
+- The script's `growth_trace` rows align each XOR example with its baseline output, residual, hidden activation, grown output, and final prediction so the mechanism can be inspected without re-deriving the numbers.
 
 ## Companion context
 

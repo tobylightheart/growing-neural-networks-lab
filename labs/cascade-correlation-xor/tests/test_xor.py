@@ -25,9 +25,21 @@ def test_growth_trace_records_real_improvement() -> None:
     candidate = result["candidate"]
     grown = result["grown_model"]
 
+    trace = result["growth_trace"]
     assert len(baseline["outputs"]) == len(XOR_DATA)
     assert len(candidate["hidden_values"]) == len(XOR_DATA)
     assert len(grown["outputs"]) == len(XOR_DATA)
+    assert len(trace) == len(XOR_DATA)
+
+    for index, row in enumerate(trace):
+        x, target = XOR_DATA[index]
+        assert row["x"] == x
+        assert row["target"] == target
+        assert row["baseline_output"] == baseline["outputs"][index]
+        assert row["residual"] == target - baseline["outputs"][index]
+        assert row["hidden_value"] == candidate["hidden_values"][index]
+        assert row["grown_output"] == grown["outputs"][index]
+        assert row["prediction"] == grown["predictions"][index]
 
     # A bias-plus-inputs linear readout should stall near the XOR mean.
     assert all(0.49 < output < 0.51 for output in baseline["outputs"])
