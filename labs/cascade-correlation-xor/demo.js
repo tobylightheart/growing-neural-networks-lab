@@ -14,8 +14,8 @@ function sigmoid(z) {
 // runnable experiment.
 const result = {
   baseline: {
-    outputs: [0.5, 0.5, 0.5, 0.5],
-    mse: 0.25
+    outputs: [0.49999962500053124, 0.4999998750000938, 0.4999998750000938, 0.5000001249996563],
+    mse: 0.25000000000004685
   },
   candidate: {
     bias: -2,
@@ -48,6 +48,9 @@ document.getElementById('trace').innerHTML = xor.map((row, i) => `
     <td>${row.x[0]}</td>
     <td>${row.x[1]}</td>
     <td>${row.target}</td>
+    <td>${fmt(result.baseline.outputs[i])}</td>
+    <td>${fmt(row.target - result.baseline.outputs[i])}</td>
+    <td>${fmt(result.candidate.hiddenValues[i])}</td>
     <td>${fmt(grownOutputs[i])}</td>
     <td>${predictions[i]}</td>
   </tr>`).join('');
