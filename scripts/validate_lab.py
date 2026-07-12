@@ -32,12 +32,42 @@ def main() -> int:
         experiment_ids.add(eid)
         require(experiment.get("algorithm_id") in algorithm_ids, f"{eid}: unknown algorithm_id", errors)
         if experiment.get("status") == "available":
+            require(
+                bool(experiment.get("summary")),
+                f"{eid}: available experiment missing summary",
+                errors,
+            )
+            require(
+                bool(experiment.get("main_garden_links")),
+                f"{eid}: available experiment missing main_garden_links",
+                errors,
+            )
+            for link in experiment.get("main_garden_links", []):
+                require(
+                    isinstance(link, str) and link.startswith("../growing-neural-networks/"),
+                    f"{eid}: main garden link should stay a relative cross-project link: {link}",
+                    errors,
+                )
+            claims = set(experiment.get("claims", []))
+            require(
+                "toy-mechanism" in claims,
+                f"{eid}: available experiment should declare toy-mechanism claim scope",
+                errors,
+            )
+            require(
+                "not-a-full-paper-reproduction" in claims,
+                f"{eid}: available experiment should declare not-a-full-paper-reproduction claim scope",
+                errors,
+            )
+
             for field in ("entry", "script"):
                 rel = experiment.get(field)
                 require(bool(rel), f"{eid}: missing {field}", errors)
                 if rel:
                     require((ROOT / rel).exists(), f"{eid}: {field} not found: {rel}", errors)
-            for test_path in experiment.get("tests", []):
+            tests = experiment.get("tests", [])
+            require(bool(tests), f"{eid}: available experiment missing tests", errors)
+            for test_path in tests:
                 require((ROOT / test_path).exists(), f"{eid}: test not found: {test_path}", errors)
 
             lab_dir = ROOT / "labs" / str(eid)
@@ -56,6 +86,16 @@ def main() -> int:
                 require(
                     lab_metadata.get("algorithm_id") == experiment.get("algorithm_id"),
                     f"{eid}: lab experiment.json algorithm_id does not match data/experiments.json",
+                    errors,
+                )
+                require(
+                    lab_metadata.get("status") == experiment.get("status"),
+                    f"{eid}: lab experiment.json status does not match data/experiments.json",
+                    errors,
+                )
+                require(
+                    bool(lab_metadata.get("limitations")),
+                    f"{eid}: lab experiment.json should document limitations",
                     errors,
                 )
 
