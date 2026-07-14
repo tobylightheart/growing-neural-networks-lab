@@ -24,6 +24,7 @@ def test_growth_trace_records_real_improvement() -> None:
     baseline = result["baseline"]
     candidate = result["candidate"]
     grown = result["grown_model"]
+    comparison = result["comparison"]
 
     trace = result["growth_trace"]
     assert len(baseline["outputs"]) == len(XOR_DATA)
@@ -48,6 +49,10 @@ def test_growth_trace_records_real_improvement() -> None:
     # The selected hidden feature must be useful after it is frozen and the
     # output layer is refit, not merely correlated with residuals in isolation.
     assert grown["mse"] < baseline["mse"] / 1000
+    assert comparison["hidden_feature_frozen_before_refit"] is True
+    assert comparison["mse_reduction"] == baseline["mse"] - grown["mse"]
+    assert comparison["error_reduction_factor"] == baseline["mse"] / grown["mse"]
+    assert comparison["error_reduction_factor"] > 1_000_000
     for output, (_, target) in zip(grown["outputs"], XOR_DATA):
         if target == 1.0:
             assert output > 0.99

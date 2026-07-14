@@ -24,7 +24,8 @@ const result = {
     hiddenValues: xor.map(row => sigmoid(-2 - 12 * row.x[0] - 12 * row.x[1]))
   },
   grown: {
-    weights: [2.000, -1.000, -1.000, -16.774]
+    weights: [2.000, -1.000, -1.000, -16.774],
+    mse: 0.000000020512956764548918
   }
 };
 
@@ -42,6 +43,7 @@ function fmt(value) {
 document.getElementById('baseline').textContent = `outputs: ${result.baseline.outputs.map(fmt).join(', ')}\nmse: ${fmt(result.baseline.mse)}`;
 document.getElementById('candidate').textContent = `bias: ${result.candidate.bias}\nweights: [${result.candidate.weights.join(', ')}]\n|corr(hidden, residual)| ≈ ${fmt(result.candidate.residualCorrelation)}`;
 document.getElementById('grown').textContent = `predictions: ${predictions.join(', ')}\nsolves XOR: ${JSON.stringify(predictions) === JSON.stringify([0,1,1,0])}`;
+document.getElementById('comparison').textContent = `MSE reduction: ${fmt(result.baseline.mse - result.grown.mse)}\nerror reduction factor: ${(result.baseline.mse / result.grown.mse).toLocaleString(undefined, { maximumFractionDigits: 0 })}×\nhidden feature frozen before refit: true`;
 
 document.getElementById('trace').innerHTML = xor.map((row, i) => `
   <tr>

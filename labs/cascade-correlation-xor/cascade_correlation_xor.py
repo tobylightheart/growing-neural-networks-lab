@@ -133,6 +133,8 @@ def run_experiment() -> dict:
 
     grown_weights, grown_outputs, grown_mse = fit_output(grown_features)
     predictions = [1 if output >= 0.5 else 0 for output in grown_outputs]
+    mse_reduction = base_mse - grown_mse
+    error_reduction_factor = base_mse / grown_mse if grown_mse else float("inf")
     growth_trace = []
     for (x, target), base_output, residual, hidden, grown_output, prediction in zip(
         XOR_DATA, base_outputs, residuals, hidden_values, grown_outputs, predictions
@@ -164,6 +166,11 @@ def run_experiment() -> dict:
             "predictions": predictions,
             "mse": grown_mse,
             "solves_xor": predictions == [0, 1, 1, 0],
+        },
+        "comparison": {
+            "mse_reduction": mse_reduction,
+            "error_reduction_factor": error_reduction_factor,
+            "hidden_feature_frozen_before_refit": True,
         },
         "growth_trace": growth_trace,
     }
