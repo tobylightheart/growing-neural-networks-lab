@@ -35,6 +35,7 @@ function dot(a, b) {
 
 const grownOutputs = xor.map((row, i) => dot(result.grown.weights, [1, row.x[0], row.x[1], result.candidate.hiddenValues[i]]));
 const predictions = grownOutputs.map(value => value >= 0.5 ? 1 : 0);
+const outputMargins = grownOutputs.map((value, i) => xor[i].target === 1 ? value - 0.5 : 0.5 - value);
 
 function fmt(value) {
   return Number(value).toFixed(3);
@@ -43,7 +44,7 @@ function fmt(value) {
 document.getElementById('baseline').textContent = `outputs: ${result.baseline.outputs.map(fmt).join(', ')}\nmse: ${fmt(result.baseline.mse)}`;
 document.getElementById('candidate').textContent = `bias: ${result.candidate.bias}\nweights: [${result.candidate.weights.join(', ')}]\n|corr(hidden, residual)| ≈ ${fmt(result.candidate.residualCorrelation)}`;
 document.getElementById('grown').textContent = `predictions: ${predictions.join(', ')}\nsolves XOR: ${JSON.stringify(predictions) === JSON.stringify([0,1,1,0])}`;
-document.getElementById('comparison').textContent = `MSE reduction: ${fmt(result.baseline.mse - result.grown.mse)}\nerror reduction factor: ${(result.baseline.mse / result.grown.mse).toLocaleString(undefined, { maximumFractionDigits: 0 })}×\nhidden feature frozen before refit: true`;
+document.getElementById('comparison').textContent = `MSE reduction: ${fmt(result.baseline.mse - result.grown.mse)}\nerror reduction factor: ${(result.baseline.mse / result.grown.mse).toLocaleString(undefined, { maximumFractionDigits: 0 })}×\nminimum threshold margin: ${fmt(Math.min(...outputMargins))}\nhidden feature frozen before refit: true`;
 
 document.getElementById('trace').innerHTML = xor.map((row, i) => `
   <tr>
@@ -54,5 +55,6 @@ document.getElementById('trace').innerHTML = xor.map((row, i) => `
     <td>${fmt(row.target - result.baseline.outputs[i])}</td>
     <td>${fmt(result.candidate.hiddenValues[i])}</td>
     <td>${fmt(grownOutputs[i])}</td>
+    <td>${fmt(outputMargins[i])}</td>
     <td>${predictions[i]}</td>
   </tr>`).join('');

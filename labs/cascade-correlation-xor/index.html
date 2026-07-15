@@ -37,16 +37,16 @@
 
     <section class="panel">
       <h2>XOR trace</h2>
-      <p>Each row mirrors the Python script's growth trace: the stalled baseline output, residual target error, frozen hidden activation, refit output, and final thresholded prediction.</p>
+      <p>Each row mirrors the Python script's growth trace: the stalled baseline output, residual target error, frozen hidden activation, refit output, margin from the 0.5 threshold, and final thresholded prediction.</p>
       <table>
-        <thead><tr><th>x₁</th><th>x₂</th><th>target</th><th>baseline</th><th>residual</th><th>hidden</th><th>grown output</th><th>prediction</th></tr></thead>
+        <thead><tr><th>x₁</th><th>x₂</th><th>target</th><th>baseline</th><th>residual</th><th>hidden</th><th>grown output</th><th>margin</th><th>prediction</th></tr></thead>
         <tbody id="trace"></tbody>
       </table>
     </section>
 
     <section class="panel">
       <h2>Improvement check</h2>
-      <p>The Python run reports the before/after mean-squared error so the trace is auditable as an actual improvement, not just a successful final truth table.</p>
+      <p>The Python run reports the before/after mean-squared error and the smallest output margin, so the trace is auditable as an actual improvement, not just a successful final truth table.</p>
       <pre id="comparison"></pre>
     </section>
 

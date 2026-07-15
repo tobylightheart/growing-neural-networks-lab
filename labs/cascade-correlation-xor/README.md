@@ -17,7 +17,8 @@ python3 tests/test_xor.py
 - A small candidate search finds a useful hidden feature.
 - After adding the feature, the classifier reaches the XOR truth table.
 - The `comparison` block reports the baseline-to-grown MSE reduction and confirms that the hidden feature is frozen before the output refit.
-- The script's `growth_trace` rows align each XOR example with its baseline output, residual, hidden activation, grown output, and final prediction so the mechanism can be inspected without re-deriving the numbers.
+- The `comparison` block also reports the smallest margin from the 0.5 classification threshold, so a passing truth table still shows whether outputs are safely separated.
+- The script's `growth_trace` rows align each XOR example with its baseline output, residual, hidden activation, grown output, threshold margin, and final prediction so the mechanism can be inspected without re-deriving the numbers.
 
 ## Companion context
 
