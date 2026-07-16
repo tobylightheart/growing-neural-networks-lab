@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,6 +18,45 @@ def load_json(path: Path):
 def require(condition: bool, message: str, errors: list[str]) -> None:
     if not condition:
         errors.append(message)
+
+
+def validate_script_output(rel: str, eid: str, errors: list[str]) -> None:
+    """Run an available lab script and require a JSON experiment trace.
+
+    Lab scripts are intentionally tiny and dependency-light, so the metadata
+    validator can afford to execute them. This catches stale script paths and
+    non-JSON regressions before the static site points readers at a broken lab.
+    """
+    script_path = ROOT / rel
+    try:
+        completed = subprocess.run(
+            [sys.executable, str(script_path)],
+            cwd=script_path.parent,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except subprocess.TimeoutExpired:
+        errors.append(f"{eid}: script timed out: {rel}")
+        return
+
+    if completed.returncode != 0:
+        errors.append(f"{eid}: script failed ({completed.returncode}): {rel}")
+        if completed.stderr.strip():
+            errors.append(f"{eid}: script stderr: {completed.stderr.strip()}")
+        return
+
+    try:
+        output = json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        errors.append(f"{eid}: script did not emit JSON: {rel} ({exc})")
+        return
+
+    require(isinstance(output, dict), f"{eid}: script JSON output should be an object", errors)
+    require(bool(output), f"{eid}: script JSON output should not be empty", errors)
+    if isinstance(output, dict) and "growth_trace" in output:
+        require(isinstance(output["growth_trace"], list), f"{eid}: growth_trace should be a list", errors)
 
 
 def main() -> int:
@@ -65,6 +106,9 @@ def main() -> int:
                 require(bool(rel), f"{eid}: missing {field}", errors)
                 if rel:
                     require((ROOT / rel).exists(), f"{eid}: {field} not found: {rel}", errors)
+            script_rel = experiment.get("script")
+            if script_rel and (ROOT / script_rel).exists():
+                validate_script_output(script_rel, str(eid), errors)
             tests = experiment.get("tests", [])
             require(bool(tests), f"{eid}: available experiment missing tests", errors)
             for test_path in tests:
