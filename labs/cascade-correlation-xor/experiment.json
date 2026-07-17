@@ -12,5 +12,8 @@
   "limitations": [
     "This is a toy mechanism demonstration, not a full reproduction of Fahlman and Lebiere (1990).",
     "Candidate search is intentionally tiny and deterministic."
-  ]
+  ],
+  "artifacts": {
+    "trace": "trace.json"
+  }
 }

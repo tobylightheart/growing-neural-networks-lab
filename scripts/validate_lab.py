@@ -20,7 +20,7 @@ def require(condition: bool, message: str, errors: list[str]) -> None:
         errors.append(message)
 
 
-def validate_script_output(rel: str, eid: str, errors: list[str]) -> None:
+def validate_script_output(rel: str, eid: str, errors: list[str]) -> dict | None:
     """Run an available lab script and require a JSON experiment trace.
 
     Lab scripts are intentionally tiny and dependency-light, so the metadata
@@ -39,24 +39,42 @@ def validate_script_output(rel: str, eid: str, errors: list[str]) -> None:
         )
     except subprocess.TimeoutExpired:
         errors.append(f"{eid}: script timed out: {rel}")
-        return
+        return None
 
     if completed.returncode != 0:
         errors.append(f"{eid}: script failed ({completed.returncode}): {rel}")
         if completed.stderr.strip():
             errors.append(f"{eid}: script stderr: {completed.stderr.strip()}")
-        return
+        return None
 
     try:
         output = json.loads(completed.stdout)
     except json.JSONDecodeError as exc:
         errors.append(f"{eid}: script did not emit JSON: {rel} ({exc})")
-        return
+        return None
 
     require(isinstance(output, dict), f"{eid}: script JSON output should be an object", errors)
     require(bool(output), f"{eid}: script JSON output should not be empty", errors)
     if isinstance(output, dict) and "growth_trace" in output:
         require(isinstance(output["growth_trace"], list), f"{eid}: growth_trace should be a list", errors)
+        return output
+    return None
+
+
+def validate_trace_snapshot(lab_dir: Path, script_output: dict | None, eid: str, errors: list[str]) -> None:
+    """If a lab publishes a static trace snapshot, keep it in lockstep with the script."""
+    trace_path = lab_dir / "trace.json"
+    if not trace_path.exists():
+        return
+    snapshot = load_json(trace_path)
+    require(isinstance(snapshot, dict), f"{eid}: trace.json should be a JSON object", errors)
+    if script_output is None or not isinstance(snapshot, dict):
+        return
+    require(
+        snapshot == script_output,
+        f"{eid}: trace.json is stale; regenerate it from the lab script",
+        errors,
+    )
 
 
 def main() -> int:
@@ -106,15 +124,17 @@ def main() -> int:
                 require(bool(rel), f"{eid}: missing {field}", errors)
                 if rel:
                     require((ROOT / rel).exists(), f"{eid}: {field} not found: {rel}", errors)
+            script_output = None
             script_rel = experiment.get("script")
             if script_rel and (ROOT / script_rel).exists():
-                validate_script_output(script_rel, str(eid), errors)
+                script_output = validate_script_output(script_rel, str(eid), errors)
             tests = experiment.get("tests", [])
             require(bool(tests), f"{eid}: available experiment missing tests", errors)
             for test_path in tests:
                 require((ROOT / test_path).exists(), f"{eid}: test not found: {test_path}", errors)
 
             lab_dir = ROOT / "labs" / str(eid)
+            validate_trace_snapshot(lab_dir, script_output, str(eid), errors)
             readme = lab_dir / "README.md"
             require(readme.exists(), f"{eid}: missing lab README.md", errors)
 
