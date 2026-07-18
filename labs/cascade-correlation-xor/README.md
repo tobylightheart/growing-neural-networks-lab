@@ -20,6 +20,7 @@ python3 tests/test_xor.py
 - The `comparison` block also reports the smallest margin from the 0.5 classification threshold, so a passing truth table still shows whether outputs are safely separated.
 - The script's `growth_trace` rows align each XOR example with its baseline output, residual, hidden activation, grown output, threshold margin, and final prediction so the mechanism can be inspected without re-deriving the numbers.
 - `trace.json` is a committed snapshot of the script output for static-site inspection; `scripts/validate_lab.py` fails if it drifts from the runnable Python trace.
+- The browser demo loads `trace.json` directly, so the page renders the same canonical values that the Python script and validator check.
 
 ## Companion context
 
