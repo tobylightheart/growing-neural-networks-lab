@@ -61,20 +61,56 @@ def validate_script_output(rel: str, eid: str, errors: list[str]) -> dict | None
     return None
 
 
-def validate_trace_snapshot(lab_dir: Path, script_output: dict | None, eid: str, errors: list[str]) -> None:
-    """If a lab publishes a static trace snapshot, keep it in lockstep with the script."""
-    trace_path = lab_dir / "trace.json"
-    if not trace_path.exists():
-        return
+def validate_trace_snapshot(
+    trace_path: Path,
+    script_output: dict | None,
+    eid: str,
+    errors: list[str],
+) -> None:
+    """Keep a static trace snapshot in lockstep with the runnable script."""
     snapshot = load_json(trace_path)
-    require(isinstance(snapshot, dict), f"{eid}: trace.json should be a JSON object", errors)
+    trace_label = trace_path.name
+    require(isinstance(snapshot, dict), f"{eid}: {trace_label} should be a JSON object", errors)
     if script_output is None or not isinstance(snapshot, dict):
         return
     require(
         snapshot == script_output,
-        f"{eid}: trace.json is stale; regenerate it from the lab script",
+        f"{eid}: {trace_label} is stale; regenerate it from the lab script",
         errors,
     )
+
+
+def validate_artifacts(
+    lab_dir: Path,
+    artifacts: object,
+    script_output: dict | None,
+    eid: str,
+    errors: list[str],
+) -> None:
+    """Validate lab-local artifact metadata for static-site routes.
+
+    Artifact paths are intentionally lab-local so an available experiment can be
+    served from a static file host without depending on generated files outside
+    the lab directory.
+    """
+    require(isinstance(artifacts, dict), f"{eid}: artifacts should be a JSON object", errors)
+    if not isinstance(artifacts, dict):
+        return
+
+    for artifact_name, artifact_rel in artifacts.items():
+        require(isinstance(artifact_rel, str), f"{eid}: artifact {artifact_name} path should be a string", errors)
+        if not isinstance(artifact_rel, str):
+            continue
+        artifact_path = Path(artifact_rel)
+        require(
+            not artifact_path.is_absolute() and ".." not in artifact_path.parts,
+            f"{eid}: artifact {artifact_name} should stay lab-local: {artifact_rel}",
+            errors,
+        )
+        full_path = lab_dir / artifact_path
+        require(full_path.exists(), f"{eid}: artifact {artifact_name} not found: {artifact_rel}", errors)
+        if artifact_name == "trace" and full_path.exists():
+            validate_trace_snapshot(full_path, script_output, eid, errors)
 
 
 def main() -> int:
@@ -134,7 +170,6 @@ def main() -> int:
                 require((ROOT / test_path).exists(), f"{eid}: test not found: {test_path}", errors)
 
             lab_dir = ROOT / "labs" / str(eid)
-            validate_trace_snapshot(lab_dir, script_output, str(eid), errors)
             readme = lab_dir / "README.md"
             require(readme.exists(), f"{eid}: missing lab README.md", errors)
 
@@ -160,6 +195,13 @@ def main() -> int:
                 require(
                     bool(lab_metadata.get("limitations")),
                     f"{eid}: lab experiment.json should document limitations",
+                    errors,
+                )
+                validate_artifacts(
+                    lab_dir,
+                    lab_metadata.get("artifacts", {}),
+                    script_output,
+                    str(eid),
                     errors,
                 )
 
