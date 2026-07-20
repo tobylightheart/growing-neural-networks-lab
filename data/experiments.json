@@ -9,7 +9,7 @@
     "script": "labs/cascade-correlation-xor/cascade_correlation_xor.py",
     "tests": ["labs/cascade-correlation-xor/tests/test_xor.py"],
     "main_garden_links": [
-      "../growing-neural-networks/pages/algorithm.html?id=cascade-correlation",
+      "../growing-neural-networks/pages/algorithms.html",
       "../growing-neural-networks/modules/cascade-correlation-growth/index.html"
     ],
     "claims": [

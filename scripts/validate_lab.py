@@ -6,6 +6,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -138,11 +139,21 @@ def main() -> int:
                 errors,
             )
             for link in experiment.get("main_garden_links", []):
+                is_garden_link = isinstance(link, str) and link.startswith(
+                    "../growing-neural-networks/"
+                )
                 require(
-                    isinstance(link, str) and link.startswith("../growing-neural-networks/"),
+                    is_garden_link,
                     f"{eid}: main garden link should stay a relative cross-project link: {link}",
                     errors,
                 )
+                if is_garden_link:
+                    garden_path = ROOT / urlsplit(link).path
+                    require(
+                        garden_path.is_file(),
+                        f"{eid}: main garden link target not found: {link}",
+                        errors,
+                    )
             claims = set(experiment.get("claims", []))
             require(
                 "toy-mechanism" in claims,
