@@ -29,8 +29,10 @@ This project should not do:
 
 ```bash
 python3 scripts/validate_lab.py
-python3 labs/cascade-correlation-xor/tests/test_xor.py
 ```
+
+The validator executes every test path declared by each available experiment,
+as well as checking metadata, runnable script output, and static trace snapshots.
 
 ## Preview
 

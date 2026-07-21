@@ -62,6 +62,42 @@ def validate_script_output(rel: str, eid: str, errors: list[str]) -> dict | None
     return None
 
 
+def validate_test(rel: object, eid: str, errors: list[str]) -> None:
+    """Require a lab-local test path and execute it with a short timeout."""
+    require(isinstance(rel, str), f"{eid}: test path should be a string: {rel}", errors)
+    if not isinstance(rel, str):
+        return
+
+    test_rel = Path(rel)
+    is_local = not test_rel.is_absolute() and ".." not in test_rel.parts
+    require(is_local, f"{eid}: test should stay repository-local: {rel}", errors)
+    if not is_local:
+        return
+
+    test_path = ROOT / test_rel
+    require(test_path.is_file(), f"{eid}: test not found: {rel}", errors)
+    if not test_path.is_file():
+        return
+
+    try:
+        completed = subprocess.run(
+            [sys.executable, str(test_path)],
+            cwd=test_path.parent,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except subprocess.TimeoutExpired:
+        errors.append(f"{eid}: test timed out: {rel}")
+        return
+
+    if completed.returncode != 0:
+        errors.append(f"{eid}: test failed ({completed.returncode}): {rel}")
+        if completed.stderr.strip():
+            errors.append(f"{eid}: test stderr: {completed.stderr.strip()}")
+
+
 def validate_trace_snapshot(
     trace_path: Path,
     script_output: dict | None,
@@ -176,9 +212,14 @@ def main() -> int:
             if script_rel and (ROOT / script_rel).exists():
                 script_output = validate_script_output(script_rel, str(eid), errors)
             tests = experiment.get("tests", [])
-            require(bool(tests), f"{eid}: available experiment missing tests", errors)
-            for test_path in tests:
-                require((ROOT / test_path).exists(), f"{eid}: test not found: {test_path}", errors)
+            require(
+                isinstance(tests, list) and bool(tests),
+                f"{eid}: available experiment tests should be a non-empty list",
+                errors,
+            )
+            if isinstance(tests, list):
+                for test_path in tests:
+                    validate_test(test_path, str(eid), errors)
 
             lab_dir = ROOT / "labs" / str(eid)
             readme = lab_dir / "README.md"
