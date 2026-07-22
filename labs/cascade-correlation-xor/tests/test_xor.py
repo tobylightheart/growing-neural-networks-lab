@@ -7,7 +7,13 @@ from pathlib import Path
 LAB_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB_DIR))
 
-from cascade_correlation_xor import XOR_DATA, run_experiment  # noqa: E402
+from cascade_correlation_xor import XOR_DATA, run_experiment, sigmoid  # noqa: E402
+
+
+def test_sigmoid_handles_extreme_inputs() -> None:
+    assert sigmoid(-1000.0) == 0.0
+    assert sigmoid(1000.0) == 1.0
+    assert sigmoid(0.0) == 0.5
 
 
 def test_cascade_correlation_xor_solves_truth_table() -> None:
@@ -69,6 +75,7 @@ def test_growth_trace_records_real_improvement() -> None:
 
 
 if __name__ == "__main__":
+    test_sigmoid_handles_extreme_inputs()
     test_cascade_correlation_xor_solves_truth_table()
     test_growth_trace_records_real_improvement()
     print("cascade-correlation XOR tests passed")

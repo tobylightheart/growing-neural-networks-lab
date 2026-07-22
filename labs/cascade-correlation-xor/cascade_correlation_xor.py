@@ -21,7 +21,11 @@ XOR_DATA = [
 
 
 def sigmoid(x: float) -> float:
-    return 1.0 / (1.0 + math.exp(-x))
+    """Return a logistic activation without overflowing at large magnitudes."""
+    if x >= 0.0:
+        return 1.0 / (1.0 + math.exp(-x))
+    exp_x = math.exp(x)
+    return exp_x / (1.0 + exp_x)
 
 
 def solve_linear_system(a: list[list[float]], b: list[float]) -> list[float]:
