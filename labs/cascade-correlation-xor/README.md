@@ -15,6 +15,7 @@ python3 tests/test_xor.py
 
 - The baseline linear model stalls on XOR.
 - A small candidate search finds a useful hidden feature.
+- The candidate block reports the deterministic search size, selected unit's refit MSE, and selection score so the choice can be audited rather than treated as a black box.
 - After adding the feature, the classifier reaches the XOR truth table.
 - The `comparison` block reports the baseline-to-grown MSE reduction and confirms that the hidden feature is frozen before the output refit.
 - The `comparison` block also reports the smallest margin from the 0.5 classification threshold, so a passing truth table still shows whether outputs are safely separated.

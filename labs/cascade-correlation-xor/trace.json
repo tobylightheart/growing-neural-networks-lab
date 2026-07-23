@@ -20,7 +20,9 @@
       -12.0
     ],
     "residual_correlation": 0.5773446105856366,
+    "refit_mse": 2.0512956764548918e-08,
     "candidate_score": 1.5773445900726804,
+    "evaluated_candidates": 2197,
     "hidden_values": [
       0.11920292202211755,
       8.315280276641321e-07,

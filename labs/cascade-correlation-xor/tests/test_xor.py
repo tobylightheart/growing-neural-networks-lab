@@ -7,7 +7,12 @@ from pathlib import Path
 LAB_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(LAB_DIR))
 
-from cascade_correlation_xor import XOR_DATA, run_experiment, sigmoid  # noqa: E402
+from cascade_correlation_xor import (  # noqa: E402
+    CANDIDATE_SEARCH_VALUES,
+    XOR_DATA,
+    run_experiment,
+    sigmoid,
+)
 
 
 def test_sigmoid_handles_extreme_inputs() -> None:
@@ -60,6 +65,11 @@ def test_growth_trace_records_real_improvement() -> None:
 
     # The selected hidden feature must be useful after it is frozen and the
     # output layer is refit, not merely correlated with residuals in isolation.
+    assert candidate["evaluated_candidates"] == len(CANDIDATE_SEARCH_VALUES) ** 3
+    assert candidate["refit_mse"] == grown["mse"]
+    assert candidate["candidate_score"] == (
+        candidate["residual_correlation"] + 1.0 / (1.0 + candidate["refit_mse"])
+    )
     assert grown["mse"] < baseline["mse"] / 1000
     assert comparison["hidden_feature_frozen_before_refit"] is True
     assert comparison["mse_reduction"] == baseline["mse"] - grown["mse"]

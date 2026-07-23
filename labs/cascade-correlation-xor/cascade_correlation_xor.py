@@ -19,6 +19,8 @@ XOR_DATA = [
     ([1.0, 1.0], 0.0),
 ]
 
+CANDIDATE_SEARCH_VALUES = [-12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12]
+
 
 def sigmoid(x: float) -> float:
     """Return a logistic activation without overflowing at large magnitudes."""
@@ -86,6 +88,7 @@ class CandidateUnit:
     w1: float
     w2: float
     residual_correlation: float
+    refit_mse: float
     score: float
 
     def activate(self, x1: float, x2: float) -> float:
@@ -105,8 +108,7 @@ def fit_output(features: list[list[float]], data=XOR_DATA) -> tuple[list[float],
 
 def find_best_candidate(residuals: list[float], data=XOR_DATA) -> CandidateUnit:
     best: CandidateUnit | None = None
-    search_values = [-12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 12]
-    for bias, w1, w2 in itertools.product(search_values, repeat=3):
+    for bias, w1, w2 in itertools.product(CANDIDATE_SEARCH_VALUES, repeat=3):
         activations = [sigmoid(bias + w1 * x[0] + w2 * x[1]) for x, _ in data]
         corr = abs(correlation(activations, residuals))
         # Prefer units that improve the readout, not just units with high raw
@@ -116,7 +118,7 @@ def find_best_candidate(residuals: list[float], data=XOR_DATA) -> CandidateUnit:
         _, _, candidate_mse = fit_output(grown_features, data)
         score = corr + (1.0 / (1.0 + candidate_mse))
         if best is None or score > best.score:
-            best = CandidateUnit(float(bias), float(w1), float(w2), corr, score)
+            best = CandidateUnit(float(bias), float(w1), float(w2), corr, candidate_mse, score)
     assert best is not None
     return best
 
@@ -173,7 +175,9 @@ def run_experiment() -> dict:
             "bias": candidate.bias,
             "weights": [candidate.w1, candidate.w2],
             "residual_correlation": candidate.residual_correlation,
+            "refit_mse": candidate.refit_mse,
             "candidate_score": candidate.score,
+            "evaluated_candidates": len(CANDIDATE_SEARCH_VALUES) ** 3,
             "hidden_values": hidden_values,
         },
         "grown_model": {

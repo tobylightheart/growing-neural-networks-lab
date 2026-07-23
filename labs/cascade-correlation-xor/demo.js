@@ -18,7 +18,7 @@ function renderTrace(result) {
   const trace = result.growth_trace;
 
   document.getElementById('baseline').textContent = `weights: [${baseline.weights.map(fmt).join(', ')}]\noutputs: ${baseline.outputs.map(fmt).join(', ')}\nmse: ${fmt(baseline.mse)}`;
-  document.getElementById('candidate').textContent = `bias: ${fmt(candidate.bias)}\nweights: [${candidate.weights.map(fmt).join(', ')}]\n|corr(hidden, residual)| ≈ ${fmt(candidate.residual_correlation)}`;
+  document.getElementById('candidate').textContent = `bias: ${fmt(candidate.bias)}\nweights: [${candidate.weights.map(fmt).join(', ')}]\n|corr(hidden, residual)| ≈ ${fmt(candidate.residual_correlation)}\nrefit MSE: ${fmt(candidate.refit_mse)}\nselection score: ${fmt(candidate.candidate_score)}\ncandidates evaluated: ${candidate.evaluated_candidates.toLocaleString()}`;
   document.getElementById('grown').textContent = `weights: [${grown.weights.map(fmt).join(', ')}]\npredictions: ${grown.predictions.join(', ')}\nsolves XOR: ${truthyPredictions(grown.predictions)}`;
   document.getElementById('comparison').textContent = `MSE reduction: ${fmt(comparison.mse_reduction)}\nerror reduction factor: ${comparison.error_reduction_factor.toLocaleString(undefined, { maximumFractionDigits: 0 })}×\nminimum threshold margin: ${fmt(comparison.min_output_margin)}\nhidden feature frozen before refit: ${comparison.hidden_feature_frozen_before_refit}`;
 
