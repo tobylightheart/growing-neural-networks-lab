@@ -6,8 +6,8 @@
 
 ## Current focus
 
-Use the first portfolio-cycle pilot to add one small, pure-Python mechanism lab
-without expanding this repository into a second literature catalogue.
+The first portfolio-cycle pilot completed `GNL-1`. No project task is currently
+queued; use portfolio planning to select and file the next bounded lab task.
 
 The repository task-ID prefix is `GNL`.
 
