@@ -46,7 +46,8 @@ static browser explainer.
 ## Decisions already made
 
 - Implement only the perceptron slice; do not add ADALINE in this task.
-- Use the AND truth table so the mechanism is linearly separable and the expected result is objective.
+- Use the AND truth table in `[00, 01, 10, 11]` order, initialize `[bias, w1, w2]` to zero, use learning rate `1`, predict class `1` only when activation is strictly positive, and cap training at 10 epochs. This policy converges deterministically in six epochs and removes hidden implementer choices from the frozen packet.
+- Record every sample evaluation/update plus an epoch summary, including before/after weights and error counts, so tests can replay the trace rather than merely inspect the final answer.
 - Keep training and output deterministic; no random initialization or external dependency.
 - Treat this as a baseline learning-mechanism lab, not a growing-network algorithm and not a published-experiment reproduction.
 - Keep one canonical committed `trace.json`; the browser must fetch it rather than duplicate numeric constants.
