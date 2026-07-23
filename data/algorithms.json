@@ -5,5 +5,12 @@
     "main_garden_algorithm_id": "cascade-correlation",
     "summary": "A constructive supervised-learning pattern that adds hidden units trained to correlate with residual error, then freezes their incoming weights.",
     "lab_ids": ["cascade-correlation-xor"]
+  },
+  {
+    "id": "perceptron",
+    "name": "Perceptron",
+    "main_garden_algorithm_id": "perceptron",
+    "summary": "A fixed-capacity linear classifier that updates its bias and input weights after misclassified examples.",
+    "lab_ids": ["perceptron-and"]
   }
 ]

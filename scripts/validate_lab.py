@@ -58,6 +58,7 @@ def validate_script_output(rel: str, eid: str, errors: list[str]) -> dict | None
     require(bool(output), f"{eid}: script JSON output should not be empty", errors)
     if isinstance(output, dict) and "growth_trace" in output:
         require(isinstance(output["growth_trace"], list), f"{eid}: growth_trace should be a list", errors)
+    if isinstance(output, dict):
         return output
     return None
 

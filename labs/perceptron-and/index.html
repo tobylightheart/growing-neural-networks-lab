@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perceptron on AND</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="lab">
+    <nav><a href="../../index.html">← Lab home</a></nav>
+    <p class="eyebrow">Fixed-capacity baseline trace</p>
+    <h1>Perceptron on AND</h1>
+    <p class="lede">Watch one bias and two input weights learn a linearly separable truth table through deterministic error-driven updates.</p>
+
+    <section class="panel warning">
+      <strong>Scope:</strong> this is a toy mechanism, not a paper reproduction and not a growing neural network. It provides a baseline for understanding when fixed linear capacity is enough.
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Training policy</h2>
+        <pre id="policy">Loading trace…</pre>
+      </div>
+      <div class="panel">
+        <h2>Final model</h2>
+        <pre id="final">Loading trace…</pre>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Epoch summary</h2>
+      <table>
+        <thead><tr><th>epoch</th><th>errors</th><th>weights after</th><th>predictions</th><th>converged</th></tr></thead>
+        <tbody id="epochs"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Sample-by-sample updates</h2>
+      <p>Every row comes from the Python trace. A zero update means the current decision was already correct.</p>
+      <table>
+        <thead><tr><th>epoch</th><th>input</th><th>target</th><th>activation</th><th>prediction</th><th>error</th><th>update</th><th>weights after</th></tr></thead>
+        <tbody id="samples"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Download</h2>
+      <p><a href="perceptron_and.py">Pure-Python script</a> · <a href="trace.json">Trace JSON</a> · <a href="README.md">Lab README</a> · <a href="experiment.json">Metadata</a></p>
+    </section>
+  </main>
+  <script src="demo.js"></script>
+</body>
+</html>

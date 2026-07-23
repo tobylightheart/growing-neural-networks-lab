@@ -24,6 +24,7 @@ This project should not do:
 ## Initial labs
 
 - `labs/cascade-correlation-xor/` — a minimal cascade-correlation-style XOR experiment with a pure-Python script and static browser explainer.
+- `labs/perceptron-and/` — a deterministic fixed-capacity baseline showing sample-by-sample perceptron updates on AND.
 
 ## Validate
 

@@ -16,5 +16,22 @@
       "toy-mechanism",
       "not-a-full-paper-reproduction"
     ]
+  },
+  {
+    "id": "perceptron-and",
+    "title": "Perceptron on AND",
+    "status": "available",
+    "algorithm_id": "perceptron",
+    "summary": "A deterministic pure-Python trace of perceptron updates on a linearly separable AND truth table.",
+    "entry": "labs/perceptron-and/index.html",
+    "script": "labs/perceptron-and/perceptron_and.py",
+    "tests": ["labs/perceptron-and/tests/test_perceptron.py"],
+    "main_garden_links": [
+      "../growing-neural-networks/pages/algorithms.html"
+    ],
+    "claims": [
+      "toy-mechanism",
+      "not-a-full-paper-reproduction"
+    ]
   }
 ]

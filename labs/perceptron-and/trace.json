@@ -1,0 +1,845 @@
+{
+  "algorithm": "perceptron",
+  "claim_scope": [
+    "toy-mechanism",
+    "not-a-full-paper-reproduction"
+  ],
+  "policy": {
+    "dataset_order": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "initial_weights": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "weight_order": [
+      "bias",
+      "x1",
+      "x2"
+    ],
+    "learning_rate": 1.0,
+    "positive_when": "activation > 0",
+    "max_epochs": 10
+  },
+  "dataset": [
+    {
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0
+    },
+    {
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0
+    },
+    {
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0
+    },
+    {
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1
+    }
+  ],
+  "epoch_trace": [
+    {
+      "epoch": 1,
+      "weights_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "errors": 1,
+      "predictions_after": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "converged": false
+    },
+    {
+      "epoch": 2,
+      "weights_before": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "weights_after": [
+        0.0,
+        2.0,
+        1.0
+      ],
+      "errors": 3,
+      "predictions_after": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "converged": false
+    },
+    {
+      "epoch": 3,
+      "weights_before": [
+        0.0,
+        2.0,
+        1.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        1.0
+      ],
+      "errors": 3,
+      "predictions_after": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "converged": false
+    },
+    {
+      "epoch": 4,
+      "weights_before": [
+        -1.0,
+        2.0,
+        1.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        2.0
+      ],
+      "errors": 2,
+      "predictions_after": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "converged": false
+    },
+    {
+      "epoch": 5,
+      "weights_before": [
+        -1.0,
+        2.0,
+        2.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "errors": 1,
+      "predictions_after": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "converged": false
+    },
+    {
+      "epoch": 6,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "errors": 0,
+      "predictions_after": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "converged": true
+    }
+  ],
+  "sample_trace": [
+    {
+      "epoch": 1,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 1,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 1,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 1,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 1,
+      "weights_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "update": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "weights_after": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 2,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "update": [
+        -1.0,
+        -0.0,
+        -0.0
+      ],
+      "weights_after": [
+        0.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 2,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "update": [
+        -1.0,
+        -0.0,
+        -1.0
+      ],
+      "weights_after": [
+        -1.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 2,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -1.0,
+        1.0,
+        0.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -1.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 2,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 1,
+      "weights_before": [
+        -1.0,
+        1.0,
+        0.0
+      ],
+      "update": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "weights_after": [
+        0.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 3,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        0.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        0.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 3,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        0.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        -1.0,
+        -0.0,
+        -1.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 3,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        -1.0,
+        2.0,
+        0.0
+      ],
+      "update": [
+        -1.0,
+        -1.0,
+        -0.0
+      ],
+      "weights_after": [
+        -2.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "epoch": 3,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": -1.0,
+      "prediction": 0,
+      "error": 1,
+      "weights_before": [
+        -2.0,
+        1.0,
+        0.0
+      ],
+      "update": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 4,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": -1.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -1.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 4,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -1.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 4,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        -1.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        -1.0,
+        -1.0,
+        -0.0
+      ],
+      "weights_after": [
+        -2.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 4,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 1,
+      "weights_before": [
+        -2.0,
+        1.0,
+        1.0
+      ],
+      "update": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "epoch": 5,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": -1.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -1.0,
+        2.0,
+        2.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -1.0,
+        2.0,
+        2.0
+      ]
+    },
+    {
+      "epoch": 5,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": -1,
+      "weights_before": [
+        -1.0,
+        2.0,
+        2.0
+      ],
+      "update": [
+        -1.0,
+        -0.0,
+        -1.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 5,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 5,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 6,
+      "x": [
+        0.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": -2.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 6,
+      "x": [
+        0.0,
+        1.0
+      ],
+      "target": 0,
+      "activation": -1.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 6,
+      "x": [
+        1.0,
+        0.0
+      ],
+      "target": 0,
+      "activation": 0.0,
+      "prediction": 0,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    },
+    {
+      "epoch": 6,
+      "x": [
+        1.0,
+        1.0
+      ],
+      "target": 1,
+      "activation": 1.0,
+      "prediction": 1,
+      "error": 0,
+      "weights_before": [
+        -2.0,
+        2.0,
+        1.0
+      ],
+      "update": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weights_after": [
+        -2.0,
+        2.0,
+        1.0
+      ]
+    }
+  ],
+  "final_model": {
+    "weights": [
+      -2.0,
+      2.0,
+      1.0
+    ],
+    "predictions": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "targets": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "converged": true,
+    "epochs_run": 6
+  }
+}

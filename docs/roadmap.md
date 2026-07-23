@@ -11,8 +11,9 @@
 ## Near-term candidates
 
 1. Perceptron and ADALINE basics
-   - tiny linearly separable datasets
-   - learning-rate and margin visualisation
+   - [x] deterministic perceptron trace on a tiny linearly separable dataset
+   - [ ] ADALINE comparison
+   - [ ] learning-rate and margin visualisation
 
 2. Dynamic Node Construction toy example
    - add hidden nodes when residual error stalls

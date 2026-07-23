@@ -1,0 +1,20 @@
+{
+  "id": "perceptron-and",
+  "title": "Perceptron on AND",
+  "algorithm_id": "perceptron",
+  "status": "available",
+  "summary": "A deterministic pure-Python perceptron trace for a linearly separable truth table.",
+  "learning_objectives": [
+    "Follow the perceptron update rule one sample at a time.",
+    "See how a bias and two input weights form a linear decision boundary.",
+    "Distinguish a fixed-capacity learning baseline from constructive growth."
+  ],
+  "limitations": [
+    "This is a toy mechanism demonstration, not a reproduction of a published experiment.",
+    "The AND truth table is deliberately tiny and linearly separable.",
+    "This lab does not add, prune, or structurally adapt network capacity."
+  ],
+  "artifacts": {
+    "trace": "trace.json"
+  }
+}
